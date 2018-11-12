@@ -1,3 +1,5 @@
-#Terminal
+# Terminal
 
-My bunch of terminal shortcuts, aliases, vim, tmux and other customizations.
+Collection of terminal shortcuts, aliases, vim, tmux and other customisations.
+
+For [tmux](https://github.com/tmux/tmux) I use https://github.com/gpakosz/.tmux
