@@ -116,7 +116,6 @@ eval "$(rbenv init -)"
 
 ### Homebrew ###
 export PATH="/usr/local/sbin:$PATH"
-export HOMEBREW_GITHUB_API_TOKEN=f0d0fe7623fd91a2ebab433cf83451bcd0c9d542
 
 ### jenv ###
 eval "$(jenv init -)"
