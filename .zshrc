@@ -93,7 +93,7 @@ export PROMPT='${ret_status} %{$fg[cyan]%}%~%{$reset_color%} $(git_prompt_info)'
 export CDPATH=$HOME
 
 ### ALIASES ###
-source $HOME/Dropbox/terminal/.aliases
+source $ACTUAL_DIR/.aliases
 
 ### HISTORY ###
 HISTFILE=$HOME/.zsh_history
