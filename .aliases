@@ -1,0 +1,20 @@
+#!/bin/bash
+
+function psaux { ps auxww | grep -i $@ | grep -v grep ;}
+function lpcurl { for ((i=1;i<=$1;i++)); do curl $2; done }
+
+function weather { curl wttr.in/$@ }
+
+alias ll='ls -lahHF'
+
+alias dm='docker-machine'
+alias dc='docker-compose'
+
+function kset { kubectl config set-context $(kubectl config current-context) --namespace=$@ }
+
+alias kconf-bkp='cp -av ~/.kube/config ~/.kube/config.bkp'
+alias kconf-rcv='cp -av ~/.kube/config.bkp ~/.kube/config'
+
+alias gpg-agent-setup='eval $(~/Dropbox/scripts/gpg-agent-setup.sh)'
+
+alias jboss-cli=$HOME/rh/ge/jboss-eap-7.1/bin/jboss-cli.sh

@@ -1,0 +1,67 @@
+[user]
+	name = juliaaano
+	email = juliaaano@gmail.com
+	signingkey = 6F48468B5D726759
+
+[includeIf "gitdir:~/dev/tyro/"]
+    path = ~/old/tyro/.gitconfig
+
+[branch]
+	autosetuprebase = always
+
+[alias]
+	ls = log --pretty=format:'%C(red)%h%C(yellow)%d %C(white)%s %C(white)%cn %C(green)(%cr)' --graph --all
+	ll = log --pretty=format:'%C(red)%h%C(yellow)%d %C(white)%s %C(white)%cn %C(green)(%cr)' --numstat
+	find = log --pretty=format:'%C(red)%h%C(yellow)%d %C(white)%s %C(white)%cn %C(green)(%cr)' --numstat --source --all -S
+	ignored = !git ls-files -v | grep '^[[:lower:]]\\|^S'
+	wipe = !git reset HEAD --hard && git clean -fd
+	rmerged = !git branch --merged master | grep -v '\\* master' | xargs -n 1 git branch -d
+	br = for-each-ref --sort='-authordate:iso8601' --format=' %(color:green)%(authordate:iso8601)%09%(color:white)%(refname:short)' refs/heads
+	unstash = stash pop
+
+[push]
+	default = simple
+
+[color]
+	branch = auto
+	diff = auto
+	status = auto
+
+[color "branch"]
+	current = yellow reverse
+	local = yellow
+	remote = green
+
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+
+[color "status"]
+	added = yellow
+	changed = green
+	untracked = cyan
+
+[core]
+	excludesfile = ~/Dropbox/terminal/.gitignore_global
+
+[pager]
+	diff = diff-highlight | less
+
+[diff]
+	compactionHeuristic = true
+
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+
+[credential "https://git-codecommit.ap-southeast-2.amazonaws.com/"]
+    usehttppath = true
+    helper = !aws codecommit credential-helper $@
+
+[commit]
+	gpgsign = true
+
