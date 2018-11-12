@@ -83,6 +83,9 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+### Actual dir where this file is (symlink followed) ###
+ACTUAL_DIR="$(dirname "$(readlink "$0")")"
+
 ### PROMPT ###
 export PROMPT='${ret_status} %{$fg[cyan]%}%~%{$reset_color%} $(git_prompt_info)'
 
@@ -116,6 +119,7 @@ eval "$(rbenv init -)"
 
 ### Homebrew ###
 export PATH="/usr/local/sbin:$PATH"
+export HOMEBREW_GITHUB_API_TOKEN=$($ACTUAL_DIR/HOMEBREW_GITHUB_API_TOKEN.sh)
 
 ### jenv ###
 eval "$(jenv init -)"
