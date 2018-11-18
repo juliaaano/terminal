@@ -84,7 +84,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 ### Actual dir where this file is (symlink followed) ###
-ACTUAL_DIR="$(dirname "$(readlink "$0")")"
+ACTUAL_DIR="$(dirname "$(readlink .zshrc)")"
 
 ### PROMPT ###
 export PROMPT='${ret_status} %{$fg[cyan]%}%~%{$reset_color%} $(git_prompt_info)'
