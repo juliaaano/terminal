@@ -49,7 +49,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git docker docker-compose docker-machine aws mvn npm kubectl)
+plugins=(git docker docker-compose docker-machine aws mvn npm)
 #(rsync ant grunt bower)
 
 # User configuration
@@ -131,11 +131,17 @@ export PATH="$HOME/.jenv/shims:$PATH"
 
 ### Completions ###
 fpath=(/usr/local/share/zsh-completions $fpath)
-source <(kops completion zsh)
+source <(kubectl completion zsh)
+#source <(kops completion zsh)
 source <(oc completion zsh)
+source <(minishift completion zsh)
 
 ### Run on exit ###
 trap "keybase-sync" EXIT
 
 ### ZSH HIGHLIGHTING ###
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
