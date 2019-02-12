@@ -44,7 +44,7 @@
 	untracked = cyan
 
 [core]
-	excludesfile = ~/Dropbox/terminal/.gitignore_global
+	#excludesfile = ~/Dropbox/terminal/.gitignore_global
 
 [pager]
 	diff = diff-highlight | less
