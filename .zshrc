@@ -119,7 +119,7 @@ eval "$(rbenv init -)"
 
 ### Homebrew ###
 export PATH="/usr/local/sbin:$PATH"
-export HOMEBREW_GITHUB_API_TOKEN=$($ACTUAL_DIR/HOMEBREW_GITHUB_API_TOKEN.sh)
+export HOMEBREW_GITHUB_API_TOKEN=$($ACTUAL_DIR/secrets/HOMEBREW_GITHUB_API_TOKEN.sh)
 
 ### jenv ###
 eval "$(jenv init -)"
@@ -145,3 +145,8 @@ source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# TELSTRA
+export TELSTRA_PIN=$($ACTUAL_DIR/secrets/TELSTRA_PIN.sh)
+export TELSTRA_PSSWD=$($ACTUAL_DIR/secrets/TELSTRA_PSSWD.sh)
+
