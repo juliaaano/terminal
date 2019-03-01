@@ -12,9 +12,12 @@ alias dc='docker-compose'
 
 function kset { kubectl config set-context $(kubectl config current-context) --namespace=$@ }
 
-alias kconf-bkp='cp -av ~/.kube/config ~/.kube/config.bkp'
-alias kconf-rcv='cp -av ~/.kube/config.bkp ~/.kube/config'
+alias kconf-bkp='cp -av $HOME/.kube/config $HOME/.kube/config.bkp'
+alias kconf-rcv='cp -av $HOME/.kube/config.bkp $HOME/.kube/config'
 
-alias gpg-agent-setup='eval $(~/Dropbox/scripts/gpg-agent-setup.sh)'
+alias gpg-agent-setup='eval $(gpg-agent-setup.sh)'
 
-alias jboss-cli=$HOME/rh/ge/jboss-eap-7.1/bin/jboss-cli.sh
+function secrets { gpg --decrypt $@ }
+
+alias gnupg-home='export GNUPGHOME=$HOME/.gnupg'
+alias gnupg-guest='export GNUPGHOME=$HOME/.gnupg-guest'

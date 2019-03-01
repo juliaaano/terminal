@@ -104,12 +104,18 @@ setopt HIST_REDUCE_BLANKS
 setopt SHARE_HISTORY
 setopt HIST_IGNORE_ALL_DUPS
 
+### GREP Options s###
+export GREP_OPTIONS=-i
+
 ### Good for tmux ###
 export EDITOR=vim
 
 ### GPG SSH ###
 export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh
 export GPG_TTY=$(tty)
+
+### ubpass ###
+source $HOME/.config/ubpass/ubpass_completion.bash
 
 ### Ruby ###
 eval "$(rbenv init -)"
