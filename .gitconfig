@@ -1,10 +1,7 @@
 [user]
 	name = juliaaano
 	email = juliaaano@gmail.com
-	signingkey = 6F48468B5D726759
-
-[includeIf "gitdir:~/dev/tyro/"]
-    path = ~/old/tyro/.gitconfig
+	signingkey = 5D726759
 
 [branch]
 	autosetuprebase = always
@@ -57,10 +54,6 @@
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
     process = git-lfs filter-process
-
-[credential "https://git-codecommit.ap-southeast-2.amazonaws.com/"]
-    usehttppath = true
-    helper = !aws codecommit credential-helper $@
 
 [commit]
 	gpgsign = true
