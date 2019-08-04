@@ -10,6 +10,10 @@ alias ll='ls -lahHF'
 alias dm='docker-machine'
 alias dc='docker-compose'
 
+alias k=kubectl
+
+alias history-edit='vim $HOME/.zsh_history'
+
 function kset { kubectl config set-context $(kubectl config current-context) --namespace=$@ }
 
 alias kconf-bkp='cp -av $HOME/.kube/config $HOME/.kube/config.bkp'

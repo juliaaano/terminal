@@ -15,6 +15,7 @@
 	rmerged = !git branch --merged master | grep -v '\\* master' | xargs -n 1 git branch -d
 	br = for-each-ref --sort='-authordate:iso8601' --format=' %(color:green)%(authordate:iso8601)%09%(color:white)%(refname:short)' refs/heads
 	unstash = stash pop
+    amend = commit --amend --no-edit
 
 [push]
 	default = simple
