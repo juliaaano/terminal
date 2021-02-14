@@ -1,5 +1,5 @@
 [user]
-	name = juliaaano
+	name = Juliano Mohr
 	email = juliaaano@gmail.com
 	signingkey = 5D726759
 
@@ -16,6 +16,7 @@
 	br = for-each-ref --sort='-authordate:iso8601' --format=' %(color:green)%(authordate:iso8601)%09%(color:white)%(refname:short)' refs/heads
 	unstash = stash pop
     amend = commit --amend --no-edit
+    wip = commit -m wip
 
 [push]
 	default = simple
@@ -58,4 +59,7 @@
 
 [commit]
 	gpgsign = true
+
+[includeIf "gitdir:~/rh/"]
+    path = ~/rh/.gitconfig
 

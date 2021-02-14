@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function psaux { ps auxww | grep -i $@ | grep -v grep ;}
-function lpcurl { for ((i=1;i<=$1;i++)); do curl $2; done }
+function lpcurl { echo "------------------------------\ncurl $1 times the url $2\n------------------------------\n"; for ((i=1;i<=$1;i++)); do curl -i $2; echo "\n------------------------------\n"; done }
 
 function weather { curl wttr.in/$@ }
 
@@ -28,3 +28,8 @@ alias gnupg-guest='export GNUPGHOME=$HOME/.gnupg-guest'
 
 alias deutsche-tan='gpg --decrypt $HOME/Dropbox/secrets/deutsche-bank-tan.jpg.gpg | open -f -a Preview.app'
 alias real-psswd='gpg --decrypt $HOME/Dropbox/secrets/real_passwd_card.jpg.gpg | open -f -a Preview.app'
+alias notes-private='gpg --decrypt $HOME/Dropbox/secrets/notes-private.txt.asc | open -f -a "Sublime Text.app"'
+
+function new-script { cp $HOME/dev/juliaaano/scripts/template.sh $@ }
+
+function jwt { jq -R 'split(".") | .[1] | @base64d | fromjson' <<< $@ }

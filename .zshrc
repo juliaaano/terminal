@@ -84,10 +84,11 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 ### Actual dir where this file is (symlink followed) ###
-ACTUAL_DIR="$(dirname "$(readlink .zshrc)")"
+#ACTUAL_DIR="$(dirname "$(readlink .zshrc)")"
+ACTUAL_DIR=$HOME/dev/juliaaano/terminal
 
 ### PROMPT ###
-export PROMPT='${ret_status} %{$fg[cyan]%}%~%{$reset_color%} $(git_prompt_info)'
+#export PROMPT='${ret_status} %{$fg[cyan]%}%~%{$reset_color%} $(git_prompt_info)'
 
 ### Auto-complete on 'cd' ###
 export CDPATH=$HOME
@@ -140,7 +141,6 @@ fpath=(/usr/local/share/zsh-completions $fpath)
 source <(kubectl completion zsh)
 #source <(kops completion zsh)
 source <(oc completion zsh)
-source <(minishift completion zsh)
 
 ### Run on exit ###
 trap "keybase-sync" EXIT
@@ -148,13 +148,17 @@ trap "keybase-sync" EXIT
 ### ZSH HIGHLIGHTING ###
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-#export NVM_DIR="$HOME/.nvm"
-#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+### ZSH GIT PROMPT ###
+#source $HOME/zsh-git-prompt/zshrc.sh
+#PROMPT='%B%m%~%b$(git_super_status) %# '
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
+[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+### GRAALVM ###
+export GRAALVM_HOME=$HOME/dev/graalvm-ce-java11-20.2.0/Contents/Home/
+export GRAAL_HOME=$HOME/dev/graalvm-ce-java11-20.2.0/Contents/Home/
 
 # TELSTRA
 export TELSTRA_PIN=$($ACTUAL_DIR/secrets/TELSTRA_PIN.sh)
