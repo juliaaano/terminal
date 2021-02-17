@@ -49,7 +49,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git docker docker-compose docker-machine aws mvn npm)
+plugins=(git docker docker-compose aws mvn npm)
 #(rsync ant grunt bower)
 
 # User configuration
@@ -84,7 +84,6 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 ### Actual dir where this file is (symlink followed) ###
-#ACTUAL_DIR="$(dirname "$(readlink .zshrc)")"
 ACTUAL_DIR=$HOME/dev/juliaaano/terminal
 
 ### PROMPT ###
@@ -115,11 +114,9 @@ export EDITOR=vim
 export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh
 export GPG_TTY=$(tty)
 
-### ubpass ###
-source $HOME/.config/ubpass/ubpass_completion.bash
-
 ### Ruby ###
 eval "$(rbenv init -)"
+export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
 
 # added by travis gem
 [ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
@@ -137,9 +134,7 @@ export PATH="$HOME/.jenv/shims:$PATH"
 #export PATH=$PATH:/usr/local/go/bin
 
 ### Completions ###
-fpath=(/usr/local/share/zsh-completions $fpath)
 source <(kubectl completion zsh)
-#source <(kops completion zsh)
 source <(oc completion zsh)
 
 ### Run on exit ###
@@ -159,8 +154,4 @@ export NVM_DIR="$HOME/.nvm"
 ### GRAALVM ###
 export GRAALVM_HOME=$HOME/dev/graalvm-ce-java11-20.2.0/Contents/Home/
 export GRAAL_HOME=$HOME/dev/graalvm-ce-java11-20.2.0/Contents/Home/
-
-# TELSTRA
-export TELSTRA_PIN=$($ACTUAL_DIR/secrets/TELSTRA_PIN.sh)
-export TELSTRA_PSSWD=$($ACTUAL_DIR/secrets/TELSTRA_PSSWD.sh)
 
