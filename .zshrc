@@ -154,6 +154,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 ### GRAALVM ###
-export GRAALVM_HOME=$HOME/dev/graalvm-ce-java11-20.2.0/Contents/Home/
-export GRAAL_HOME=$HOME/dev/graalvm-ce-java11-20.2.0/Contents/Home/
+export GRAALVM_HOME=$HOME/dev/graalvm-ce-java11-21.0.0.2/Contents/Home/
+export GRAAL_HOME=$HOME/dev/graalvm-ce-java11-21.0.0.2/Contents/Home/
 
