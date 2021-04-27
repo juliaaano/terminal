@@ -7,8 +7,9 @@ function weather { curl wttr.in/$@ }
 
 alias ll='ls -lahHF'
 
-alias dm='docker-machine'
 alias dc='docker-compose'
+
+alias runs='gh run view'
 
 alias k=kubectl
 
