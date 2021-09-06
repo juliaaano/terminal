@@ -1,9 +1,18 @@
 #!/bin/bash
 
 function psaux { ps auxww | grep -i $@ | grep -v grep ;}
-function lpcurl { echo "------------------------------\ncurl $1 times the url $2\n------------------------------\n"; for ((i=1;i<=$1;i++)); do curl -i $2; echo "\n------------------------------\n"; done }
+function lpcurl { echo "------------------------------\ncurl $1 times the url $2\n------------------------------\n"; for ((i=1;i<=$1;i++)); do curl -k -i $2; echo "\n------------------------------\n"; done }
 
 function weather { curl wttr.in/$@ }
+
+function mfa {
+    local service=""
+    [ $# -eq 1 ] && service="$1"
+    otp=$(ykman oath accounts code --single "${service}")
+    [ -n "${otp}" ] || return 1
+    echo -n "${otp}" | pbcopy
+    echo "OTP copied to clipboard"
+}
 
 alias ll='ls -lahHF'
 
@@ -20,12 +29,11 @@ function kset { kubectl config set-context $(kubectl config current-context) --n
 alias kconf-bkp='cp -av $HOME/.kube/config $HOME/.kube/config.bkp'
 alias kconf-rcv='cp -av $HOME/.kube/config.bkp $HOME/.kube/config'
 
-alias gpg-agent-setup='eval $(gpg-agent-setup.sh)'
+alias gpg-agent-setup='eval $($HOME/dev/juliaaano/scripts/gpg-agent-setup.sh)'
 
 function secrets { gpg --decrypt $@ }
 
-alias gnupg-home='export GNUPGHOME=$HOME/.gnupg'
-alias gnupg-guest='export GNUPGHOME=$HOME/.gnupg-guest'
+alias gpg-home='export GNUPGHOME=$HOME/.gnupg'
 
 alias deutsche-tan='gpg --decrypt $HOME/Dropbox/secrets/deutsche-bank-tan.jpg.gpg | open -f -a Preview.app'
 alias real-psswd='gpg --decrypt $HOME/Dropbox/secrets/real_passwd_card.jpg.gpg | open -f -a Preview.app'
