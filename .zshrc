@@ -169,3 +169,6 @@ export NVM_DIR="$HOME/.nvm"
 export GRAALVM_HOME=$HOME/dev/graalvm-ce-java11-21.0.0.2/Contents/Home/
 export GRAAL_HOME=$HOME/dev/graalvm-ce-java11-21.0.0.2/Contents/Home/
 
+### https://github.com/junegunn/fzf ###
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
