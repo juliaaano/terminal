@@ -21,6 +21,17 @@ alias dc='docker-compose'
 alias runs='gh run view'
 
 alias k=kubectl
+alias kc=kubectx
+alias kn=kubens
+#alias kc='kubeuctl config use-context'
+
+function kntoggle {
+  if [ "$KUBE_PS1_NS_ENABLE" = true ]; then
+    export KUBE_PS1_NS_ENABLE=false
+  else
+    export KUBE_PS1_NS_ENABLE=true
+  fi
+}
 
 alias history-edit='vim $HOME/.zsh_history'
 
@@ -35,8 +46,6 @@ function secrets { gpg --decrypt $@ }
 
 alias gpg-home='export GNUPGHOME=$HOME/.gnupg'
 
-alias deutsche-tan='gpg --decrypt $HOME/Dropbox/secrets/deutsche-bank-tan.jpg.gpg | open -f -a Preview.app'
-alias real-psswd='gpg --decrypt $HOME/Dropbox/secrets/real_passwd_card.jpg.gpg | open -f -a Preview.app'
 alias notes-private='gpg --decrypt $HOME/Dropbox/secrets/notes-private.txt.asc | open -f -a "Sublime Text.app"'
 
 function new-script { cp $HOME/dev/juliaaano/scripts/template.sh $@ }

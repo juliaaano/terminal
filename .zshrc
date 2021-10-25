@@ -149,6 +149,18 @@ source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 #source $HOME/zsh-git-prompt/zshrc.sh
 #PROMPT='%B%m%~%b$(git_super_status) %# '
 
+### KUBE PS1 PROMPT ##
+### https://github.com/jonmosco/kube-ps1/ ###
+source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
+export PROMPT='$(kube_ps1)'$PROMPT
+export KUBE_PS1_BINARY=oc
+export KUBE_PS1_NS_ENABLE=true
+export KUBE_PS1_PREFIX=""
+export KUBE_PS1_SUFFIX=" "
+export KUBE_PS1_SYMBOL_ENABLE=false
+function get_cluster_short { echo "$1" | cut -d "/" -f2 | cut -d ":" -f1 | sed "s/api-//" | sed "s/-co-nz//" | sed "s/-ds-ahunga//" }
+export KUBE_PS1_CLUSTER_FUNCTION=get_cluster_short
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
 [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
