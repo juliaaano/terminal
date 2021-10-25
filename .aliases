@@ -6,12 +6,12 @@ function lpcurl { echo "------------------------------\ncurl $1 times the url $2
 function weather { curl wttr.in/$@ }
 
 function mfa {
-    local service=""
-    [ $# -eq 1 ] && service="$1"
-    otp=$(ykman oath accounts code --single "${service}")
-    [ -n "${otp}" ] || return 1
-    echo -n "${otp}" | pbcopy
-    echo "OTP copied to clipboard"
+  local service=""
+  [ $# -eq 1 ] && service="$1"
+  otp=$(ykman oath accounts code --single "${service}")
+  [ -n "${otp}" ] || return 1
+  echo -n "${otp}" | pbcopy
+  echo "OTP copied to clipboard"
 }
 
 alias ll='ls -lahHF'
