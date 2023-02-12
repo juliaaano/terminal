@@ -7,7 +7,8 @@ export ZSH=$HOME/.oh-my-zsh
 # time that oh-my-zsh is loaded.
 #ZSH_THEME="robbyrussell"
 #ZSH_THEME="fwalch"
-ZSH_THEME="zhann"
+#ZSH_THEME="zhann"
+ZSH_THEME="minimal"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -51,8 +52,8 @@ ZSH_THEME="zhann"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git github docker docker-compose aws mvn npm)
-#(rsync ant grunt bower)
+plugins=(git oc kubectl docker docker-compose aws mvn)
+#(github npm rsync ant grunt bower)
 
 # User configuration
 
@@ -88,9 +89,6 @@ source $ZSH/oh-my-zsh.sh
 ### Actual dir where this file is (symlink followed) ###
 ACTUAL_DIR=$HOME/dev/juliaaano/terminal
 
-### PROMPT ###
-#export PROMPT='${ret_status} %{$fg[cyan]%}%~%{$reset_color%} $(git_prompt_info)'
-
 ### Auto-complete on 'cd' ###
 export CDPATH=$HOME
 
@@ -120,9 +118,6 @@ export GPG_TTY=$(tty)
 eval "$(rbenv init -)"
 export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
 
-# added by travis gem
-[ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
-
 ### Homebrew ###
 export PATH="/usr/local/sbin:$PATH"
 export HOMEBREW_GITHUB_API_TOKEN=$($ACTUAL_DIR/secrets/HOMEBREW_GITHUB_API_TOKEN.sh)
@@ -135,9 +130,8 @@ export PATH="$HOME/.jenv/shims:$PATH"
 #export PATH="$GOPATH/bin:$PATH"
 #export PATH=$PATH:/usr/local/go/bin
 
-### Completions ###
-source <(kubectl completion zsh)
-source <(oc completion zsh)
+### KUBECTL KREW ###
+export PATH="${PATH}:${HOME}/.krew/bin"
 
 ### Run on exit ###
 trap "keybase-sync" EXIT
@@ -145,12 +139,8 @@ trap "keybase-sync" EXIT
 ### ZSH HIGHLIGHTING ###
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-### ZSH GIT PROMPT ###
-#source $HOME/zsh-git-prompt/zshrc.sh
-#PROMPT='%B%m%~%b$(git_super_status) %# '
-
 ### KUBE PS1 PROMPT ##
-### https://github.com/jonmosco/kube-ps1/ ###
+### https://github.com/jonmosco/kube-ps1 ###
 source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
 export PROMPT='$(kube_ps1)'$PROMPT
 export KUBE_PS1_BINARY=oc
@@ -158,7 +148,20 @@ export KUBE_PS1_NS_ENABLE=true
 export KUBE_PS1_PREFIX=""
 export KUBE_PS1_SUFFIX=" "
 export KUBE_PS1_SYMBOL_ENABLE=false
-function get_cluster_short { echo "$1" | cut -d "/" -f2 | cut -d ":" -f1 | sed "s/api-//" | sed "s/-co-nz//" | sed "s/-ds-ahunga//" }
+export KUBE_PS1_NS_COLOR="cyan"
+export KUBE_PS1_CTX_COLOR="magenta"
+#function get_cluster_short { echo "$1" | cut -d "/" -f "2" | cut -d ":" -f "1" | cut -d "-" -f "4,5" }
+function get_cluster_short {
+  declare -a array=($(echo "$1" | tr "/" " "))
+  array_length=${#array[@]}
+  user=${array[${array_length}]}
+  domain=$(echo ${array[${array_length}-1]} | cut -d ":" -f 1 | cut -d "-" -f "4,5") 
+  if [ ${array_length} -gt 1 ]; then
+    echo "${user}@${domain}"
+  else
+    echo "$1"
+  fi
+}
 export KUBE_PS1_CLUSTER_FUNCTION=get_cluster_short
 
 export NVM_DIR="$HOME/.nvm"
@@ -166,9 +169,16 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 ### GRAALVM ###
-export GRAALVM_HOME=$HOME/dev/graalvm-ce-java11-21.0.0.2/Contents/Home/
-export GRAAL_HOME=$HOME/dev/graalvm-ce-java11-21.0.0.2/Contents/Home/
+export GRAALVM_HOME=$HOME/dev/graalvm-ce-java11-21.3.0/Contents/Home/
 
 ### https://github.com/junegunn/fzf ###
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+### PYENV ###
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+alias brew='env PATH="${PATH//$(pyenv root)\/shims:/}" brew'
+
+brew unlink kubernetes-cli && brew link --overwrite kubernetes-cli
 

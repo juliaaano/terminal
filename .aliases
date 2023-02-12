@@ -1,7 +1,65 @@
 #!/bin/bash
 
+alias ll='ls -lahHF'
+alias history-edit='vim $HOME/.zsh_history'
+
+alias gpg-agent-setup='eval $($HOME/dev/juliaaano/scripts/gpg-agent-setup.sh)'
+alias gpg-home='export GNUPGHOME=$HOME/.gnupg'
+
+alias notes-private='gpg --decrypt $HOME/Dropbox/secrets/notes-private.txt.asc | open -f -a "Sublime Text.app"'
+
+alias dc='docker compose'
+alias runs='gh run view'
+
+alias nav='source $HOME/venv/navigator/bin/activate'
+
+### K8S / OCP ###
+
+#alias kc='kubectl config use-context'
+alias kc=kubectx
+alias ns=kubens
+
+alias pods='kubectl get pods'
+alias routes='kubectl get routes'
+alias logs='kubectl logs -f'
+
+alias console='open $(oc whoami --show-console)'
+
+alias kconf-bkp='cp -av $HOME/.kube/config $HOME/.kube/config.bkp'
+alias kconf-rcv='cp -av $HOME/.kube/config.bkp $HOME/.kube/config'
+
+alias kubectl-fix='brew unlink kubernetes-cli && brew link --overwrite kubernetes-cli'
+
+### FUNCTIONS ###
+
+function ocl {
+  OCP_API=${1}
+  OCP_USR=${2:-'admin'}
+  OCP_PWD=${3:-'r3dh4t1!'}
+  kubens default
+  if [ "${OCP_PWD}" = "ask" ]; then
+    ${HOME}/openshift-cli/oc10 login "${OCP_API}" -u "${OCP_USR}"
+  else
+    ${HOME}/openshift-cli/oc10 login "${OCP_API}" -u "${OCP_USR}" -p "${OCP_PWD}"
+  fi
+}
+
+function nstoggle {
+  if [ "${KUBE_PS1_NS_ENABLE}" = true ]; then
+    export KUBE_PS1_NS_ENABLE=false
+  else
+    export KUBE_PS1_NS_ENABLE=true
+  fi
+}
+
+#function ns { kubectl config set-context $(kubectl config current-context) --namespace=$@ }
+
+function secrets { gpg --decrypt $@ }
+function new-script { cp $HOME/dev/juliaaano/scripts/template.sh $@ }
+
 function psaux { ps auxww | grep -i $@ | grep -v grep ;}
-function lpcurl { echo "------------------------------\ncurl $1 times the url $2\n------------------------------\n"; for ((i=1;i<=$1;i++)); do curl -k -i $2; echo "\n------------------------------\n"; done }
+function lpcurl { echo "------------------------------\ncurl $1 times the url $2\n------------------------------\n"; for ((i=1;i<=$1;i++)); do curl -k -s -i $2; echo "\n------------------------------\n"; done }
+function jwt { jq -R 'split(".") | .[1] | @base64d | fromjson' <<< $@ }
 
 function weather { curl wttr.in/$@ }
 
@@ -13,41 +71,3 @@ function mfa {
   echo -n "${otp}" | pbcopy
   echo "OTP copied to clipboard"
 }
-
-alias ll='ls -lahHF'
-
-alias dc='docker-compose'
-
-alias runs='gh run view'
-
-alias k=kubectl
-alias kc=kubectx
-alias kn=kubens
-#alias kc='kubeuctl config use-context'
-
-function kntoggle {
-  if [ "$KUBE_PS1_NS_ENABLE" = true ]; then
-    export KUBE_PS1_NS_ENABLE=false
-  else
-    export KUBE_PS1_NS_ENABLE=true
-  fi
-}
-
-alias history-edit='vim $HOME/.zsh_history'
-
-function kset { kubectl config set-context $(kubectl config current-context) --namespace=$@ }
-
-alias kconf-bkp='cp -av $HOME/.kube/config $HOME/.kube/config.bkp'
-alias kconf-rcv='cp -av $HOME/.kube/config.bkp $HOME/.kube/config'
-
-alias gpg-agent-setup='eval $($HOME/dev/juliaaano/scripts/gpg-agent-setup.sh)'
-
-function secrets { gpg --decrypt $@ }
-
-alias gpg-home='export GNUPGHOME=$HOME/.gnupg'
-
-alias notes-private='gpg --decrypt $HOME/Dropbox/secrets/notes-private.txt.asc | open -f -a "Sublime Text.app"'
-
-function new-script { cp $HOME/dev/juliaaano/scripts/template.sh $@ }
-
-function jwt { jq -R 'split(".") | .[1] | @base64d | fromjson' <<< $@ }
