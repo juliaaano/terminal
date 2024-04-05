@@ -1,34 +1,46 @@
 #!/bin/bash
 
-alias ll='ls -lahHF'
+#alias ll='ls -lahHF'
+alias ll='lsd -lahF'
 alias history-edit='vim $HOME/.zsh_history'
 
-alias gpg-agent-setup='eval $($HOME/dev/juliaaano/scripts/gpg-agent-setup.sh)'
 alias gpg-home='export GNUPGHOME=$HOME/.gnupg'
 
-alias notes-private='gpg --decrypt $HOME/Dropbox/secrets/notes-private.txt.asc | open -f -a "Sublime Text.app"'
+alias notes-private='alias notes-private; gpg --decrypt $HOME/icloud/secrets/notes-private.txt.asc | open -f -a "Sublime Text.app"'
 
-alias dc='docker compose'
+alias docker='podman'
 alias runs='gh run view'
 
-alias nav='source $HOME/venv/navigator/bin/activate'
+alias pm='podman machine'
+
+alias nav='alias nav; source $HOME/venv/navigator/bin/activate'
+
+alias caffeinate='alias caffeinante; caffeinate -disu'
+
+alias agd-init='alias agd-init; source $AGNOSTICD_HOME/tools/runner/init.sh'
+alias agd-run='alias agd-run; caffeinate -disu $AGNOSTICD_HOME/tools/runner/run.sh'
+alias agd-clean='alias agd-clean; find $AGNOSTICD_HOME/ansible/workdir/.agnosticd ! -name "secrets.yml" -delete'
 
 ### K8S / OCP ###
 
+alias k='kubectl'
 #alias kc='kubectl config use-context'
-alias kc=kubectx
-alias ns=kubens
+alias kc='kubectx'
+alias ns='kubens'
 
 alias pods='kubectl get pods'
 alias routes='kubectl get routes'
 alias logs='kubectl logs -f'
 
-alias console='open $(oc whoami --show-console)'
+alias console='alias console; open -b com.apple.safari $(oc whoami --show-console)'
+#alias console='alias console; open -b com.google.Chrome $(oc whoami --show-console)'
+alias gitops='alias gitops; open -b com.apple.safari https://$(kubectl get routes openshift-gitops-server -o jsonpath='{.spec.host}' -n openshift-gitops)'
+#alias gitops='alias gitops; open -b com.google.Chrome https://$(kubectl get routes openshift-gitops-server -o jsonpath='{.spec.host}' -n openshift-gitops)'
 
 alias kconf-bkp='cp -av $HOME/.kube/config $HOME/.kube/config.bkp'
 alias kconf-rcv='cp -av $HOME/.kube/config.bkp $HOME/.kube/config'
 
-alias kubectl-fix='brew unlink kubernetes-cli && brew link --overwrite kubernetes-cli'
+alias crc='crc --log-level debug'
 
 ### FUNCTIONS ###
 
@@ -36,12 +48,16 @@ function ocl {
   OCP_API=${1}
   OCP_USR=${2:-'admin'}
   OCP_PWD=${3:-'r3dh4t1!'}
-  kubens default
-  if [ "${OCP_PWD}" = "ask" ]; then
-    ${HOME}/openshift-cli/oc10 login "${OCP_API}" -u "${OCP_USR}"
-  else
-    ${HOME}/openshift-cli/oc10 login "${OCP_API}" -u "${OCP_USR}" -p "${OCP_PWD}"
+  if [ -z $OCP_API ] && [ -n $AGD_GUID ] && [ -n $AGD_SANDBOX ]; then
+    OCP_API="https://api.cluster-${AGD_GUID}.${AGD_GUID}.${AGD_SANDBOX}.opentlc.com:6443"
   fi
+  #kubens default;
+  ${HOME}/cli/oc login --server="${OCP_API}" --username="${OCP_USR}" --password="${OCP_PWD}"
+}
+
+function rt {
+  ROUTE=$(kubectl get routes -o jsonpath='{.spec.host}' ${@})
+  open -b com.apple.safari https://${ROUTE}
 }
 
 function nstoggle {
@@ -52,22 +68,48 @@ function nstoggle {
   fi
 }
 
+function kcd {
+  entries=$(kubectx)
+  current=$(kubectx -c)
+  while IFS= read -r entry; do
+    if [[ $entry != "crc-"* ]] && [[ $entry != $current ]]; then
+      kubectx -d "$entry"
+    fi
+  done <<< "$entries"
+}
+
 #function ns { kubectl config set-context $(kubectl config current-context) --namespace=$@ }
 
 function secrets { gpg --decrypt $@ }
 function new-script { cp $HOME/dev/juliaaano/scripts/template.sh $@ }
 
-function psaux { ps auxww | grep -i $@ | grep -v grep ;}
-function lpcurl { echo "------------------------------\ncurl $1 times the url $2\n------------------------------\n"; for ((i=1;i<=$1;i++)); do curl -k -s -i $2; echo "\n------------------------------\n"; done }
+function psaux { ps auxww | grep -i $@ | grep -v grep }
+
+function lpcurl {
+  echo "------------------------------\ncurl $1 times the url $2\n------------------------------\n"
+  for ((i=1;i<=$1;i++)); do
+    curl -k -s -i $2
+    echo "\n------------------------------\n"
+  done
+}
+
+
 function jwt { jq -R 'split(".") | .[1] | @base64d | fromjson' <<< $@ }
 
 function weather { curl wttr.in/$@ }
 
 function mfa {
   local service=""
-  [ $# -eq 1 ] && service="$1"
+  if [ $# -eq 1 ]; then
+    service="$1"
+  fi
   otp=$(ykman oath accounts code --single "${service}")
   [ -n "${otp}" ] || return 1
-  echo -n "${otp}" | pbcopy
+  echo -n "${otp}" | pbcopy;
   echo "OTP copied to clipboard"
 }
+
+alias password='alias password; bw --session $(bw unlock --passwordfile $HOME/icloud/secrets/bitwarden-mp.txt --raw) get password'
+alias notes='alias notes; bw --session $(bw unlock --passwordfile $HOME/icloud/secrets/bitwarden-mp.txt --raw) get notes'
+alias item='alias item; bw --session $(bw unlock --passwordfile $HOME/icloud/secrets/bitwarden-mp.txt --raw) --pretty get item'
+
