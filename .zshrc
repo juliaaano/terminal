@@ -52,12 +52,19 @@ ZSH_THEME="minimal"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git oc kubectl docker docker-compose aws mvn)
-#(github npm rsync ant grunt bower)
+plugins=(
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+  oc
+  aws
+  mvn
+)
 
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
+
+FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 
 source $ZSH/oh-my-zsh.sh
 
@@ -108,23 +115,24 @@ setopt HIST_IGNORE_ALL_DUPS
 export GREP_OPTIONS=-i
 
 ### Good for tmux ###
-export EDITOR=vim
+#export EDITOR=vim
 
 ### GPG SSH ###
-export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh
-export GPG_TTY=$(tty)
+#export GPG_TTY=$(tty)
+#export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+#gpgconf --launch gpg-agent
+#eval $($HOME/dev/juliaaano/scripts/gpg-agent-setup.sh)
 
 ### Ruby ###
-eval "$(rbenv init -)"
-export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
+eval "$(rbenv init - zsh)"
+#export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
 
 ### Homebrew ###
-export PATH="/usr/local/sbin:$PATH"
-export HOMEBREW_GITHUB_API_TOKEN=$($ACTUAL_DIR/secrets/HOMEBREW_GITHUB_API_TOKEN.sh)
+#export HOMEBREW_GITHUB_API_TOKEN=$($ACTUAL_DIR/secrets/HOMEBREW_GITHUB_API_TOKEN.sh)
 
 ### jenv ###
+export PATH="$HOME/.jenv/bin:$PATH"
 eval "$(jenv init -)"
-export PATH="$HOME/.jenv/shims:$PATH"
 
 ### GOLANG ###
 #export PATH="$GOPATH/bin:$PATH"
@@ -133,16 +141,16 @@ export PATH="$HOME/.jenv/shims:$PATH"
 ### KUBECTL KREW ###
 export PATH="${PATH}:${HOME}/.krew/bin"
 
-### Run on exit ###
-trap "keybase-sync" EXIT
-
-### ZSH HIGHLIGHTING ###
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+### AWS zsh plugin ###
+function aws_prompt_info() {
+  if [[ -z $AWS_REGION || -z $AWS_PROFILE ]];then return; fi
+  echo "${AWS_PROFILE}|${AWS_REGION}"
+}
 
 ### KUBE PS1 PROMPT ##
 ### https://github.com/jonmosco/kube-ps1 ###
-source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
-export PROMPT='$(kube_ps1)'$PROMPT
+source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
+PS1='$(kube_ps1)'$PS1
 export KUBE_PS1_BINARY=oc
 export KUBE_PS1_NS_ENABLE=true
 export KUBE_PS1_PREFIX=""
@@ -155,7 +163,11 @@ function get_cluster_short {
   declare -a array=($(echo "$1" | tr "/" " "))
   array_length=${#array[@]}
   user=${array[${array_length}]}
-  domain=$(echo ${array[${array_length}-1]} | cut -d ":" -f 1 | cut -d "-" -f "4,5") 
+  if [[ $1 == *"crc"* ]]; then
+    domain="crc"
+  else
+    domain=$(echo ${array[${array_length}-1]} | cut -d ":" -f 1 | cut -d "-" -f "4,5") 
+  fi
   if [ ${array_length} -gt 1 ]; then
     echo "${user}@${domain}"
   else
@@ -165,11 +177,8 @@ function get_cluster_short {
 export KUBE_PS1_CLUSTER_FUNCTION=get_cluster_short
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-
-### GRAALVM ###
-export GRAALVM_HOME=$HOME/dev/graalvm-ce-java11-21.3.0/Contents/Home/
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 ### https://github.com/junegunn/fzf ###
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -178,7 +187,10 @@ export GRAALVM_HOME=$HOME/dev/graalvm-ce-java11-21.3.0/Contents/Home/
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
-alias brew='env PATH="${PATH//$(pyenv root)\/shims:/}" brew'
 
-brew unlink kubernetes-cli && brew link --overwrite kubernetes-cli
+### Bitwarden CLI ###
+eval "$(bw completion --shell zsh); compdef _bw bw;"
+
+### AGNOSTICD ###
+export AGNOSTICD_HOME=${HOME}/redhat/redhat-cop/agnosticd
 
