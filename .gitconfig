@@ -1,65 +1,80 @@
 [user]
-    name = Juliano Mohr
-    email = juliaaano@gmail.com
-    signingkey = 5D726759
-
-[branch]
-    autosetuprebase = always
-
-[alias]
-    ls = log --pretty=format:'%C(red)%h%C(yellow)%d %C(white)%s %C(white)%cn %C(green)(%cr)' --graph --all
-    ll = log --pretty=format:'%C(red)%h%C(yellow)%d %C(white)%s %C(white)%cn %C(green)(%cr)' --numstat
-    find = log --pretty=format:'%C(red)%h%C(yellow)%d %C(white)%s %C(white)%cn %C(green)(%cr)' --numstat --source --all -S
-    ignored = !git ls-files -v | grep '^[[:lower:]]\\|^S'
-    wipe = !git reset HEAD --hard && git clean -fd
-    rmerged = !git branch --merged master | grep -v '\\* master' | xargs -n 1 git branch -d
-    br = for-each-ref --sort='-authordate:iso8601' --format=' %(color:green)%(authordate:iso8601)%09%(color:white)%(refname:short)' refs/heads
-    unstash = stash pop
-    amend = commit --amend --no-edit
-    wip = commit -m wip
-
-[push]
-    default = simple
-
-[color]
-    branch = auto
-    diff = auto
-    status = auto
-
-[color "branch"]
-    current = yellow reverse
-    local = yellow
-    remote = green
-
-[color "diff"]
-    meta = yellow bold
-    frag = magenta bold
-    old = red bold
-    new = green bold
-
-[color "status"]
-    added = yellow
-    changed = green
-    untracked = cyan
-
-[core]
-    #excludesfile = ~/Dropbox/terminal/.gitignore_global
-
-[pager]
-    diff = diff-highlight | less
-
-[diff]
-    compactionHeuristic = true
-
-[filter "lfs"]
-    required = true
-    clean = git-lfs clean -- %f
-    smudge = git-lfs smudge -- %f
-    process = git-lfs filter-process
+  name = Juliano Mohr
+  # email = juliaaano@gmail.com
+  email = 1110178+juliaaano@users.noreply.github.com
+  # signingkey = 5D726759
 
 [commit]
-    gpgsign = true
+  gpgsign = false
 
-[includeIf "gitdir:~/rh/"]
-    path = ~/rh/.gitconfig
+[branch]
+  autosetuprebase = always
 
+[alias]
+  ls = log --pretty=format:'%C(red)%h%C(yellow)%d %C(white)%s %C(white)%cn %C(green)(%cr)' --graph --all
+  ll = log --pretty=format:'%C(red)%h%C(yellow)%d %C(white)%s %C(white)%cn %C(green)(%cr)' --numstat
+  find = log --pretty=format:'%C(red)%h%C(yellow)%d %C(white)%s %C(white)%cn %C(green)(%cr)' --numstat --source --all -S
+  ignored = !git ls-files -v | grep '^[[:lower:]]\\|^S'
+  wipe = !git reset HEAD --hard && git clean -fd
+  rmerged = !git branch --merged master | grep -v '\\* master' | xargs -n 1 git branch -d
+  br = for-each-ref --sort='-authordate:iso8601' --format=' %(color:green)%(authordate:iso8601)%09%(color:white)%(refname:short)' refs/heads
+  unstash = stash pop
+  amend = commit --amend --no-edit
+  wip = commit -m wip
+  create = !git switch --create jm-${RANDOM}
+  delete = branch --delete --force
+  cm = commit --message
+  unstage = restore --staged .
+  master = checkout master
+  main = checkout main
+  dev = checkout development
+
+[push]
+  default = simple
+  autoSetupRemote = true
+
+[color]
+  branch = auto
+  diff = auto
+  status = auto
+
+[color "branch"]
+  current = yellow reverse
+  local = yellow
+  remote = green
+
+[color "diff"]
+  meta = yellow bold
+  frag = magenta bold
+  old = red bold
+  new = green bold
+
+[color "status"]
+  added = yellow
+  changed = green
+  untracked = cyan
+
+[core]
+  # excludesfile = /Users/juliano/dev/juliaaano/terminal/.gitignore_global
+
+[pager]
+  diff = diff-highlight | less
+
+[diff]
+  compactionHeuristic = true
+  tool = vscode
+
+[difftool "vscode"]
+  cmd = code --wait --diff $LOCAL $REMOTE
+
+[filter "lfs"]
+  required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+
+[includeIf "gitdir:/Users/juliano/redhat/"]
+  path = /Users/juliano/redhat/.gitconfig
+
+[init]
+  defaultBranch = main
