@@ -63,6 +63,7 @@ plugins=(
 # User configuration
 
 zstyle ':omz:alpha:lib:git' async-prompt no
+zstyle ':omz:update' mode auto
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
