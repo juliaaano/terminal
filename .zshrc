@@ -62,6 +62,8 @@ plugins=(
 
 # User configuration
 
+zstyle ':omz:alpha:lib:git' async-prompt no
+
 # export MANPATH="/usr/local/man:$MANPATH"
 
 FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
@@ -69,7 +71,7 @@ FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -152,7 +154,7 @@ function aws_prompt_info() {
 source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
 PS1='$(kube_ps1)'$PS1
 export KUBE_PS1_BINARY=oc
-export KUBE_PS1_NS_ENABLE=true
+export KUBE_PS1_NS_ENABLE=false
 export KUBE_PS1_PREFIX=""
 export KUBE_PS1_SUFFIX=" "
 export KUBE_PS1_SYMBOL_ENABLE=false
@@ -163,12 +165,14 @@ function get_cluster_short {
   declare -a array=($(echo "$1" | tr "/" " "))
   array_length=${#array[@]}
   user=${array[${array_length}]}
-  if [[ $1 == *"crc"* ]]; then
+  if [[ "$1" == *"crc"* ]]; then
     domain="crc"
   else
     domain=$(echo ${array[${array_length}-1]} | cut -d ":" -f 1 | cut -d "-" -f "4,5") 
   fi
-  if [ ${array_length} -gt 1 ]; then
+  if [[ "${domain}" == "N" ]]; then
+    echo "off"
+  elif [ ${array_length} -gt 1 ]; then
     echo "${user}@${domain}"
   else
     echo "$1"
