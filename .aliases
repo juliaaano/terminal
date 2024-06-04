@@ -21,11 +21,14 @@ alias agd-init='alias agd-init; source $AGNOSTICD_HOME/tools/runner/init.sh'
 alias agd-run='alias agd-run; caffeinate -disu $AGNOSTICD_HOME/tools/runner/run.sh'
 alias agd-clean='alias agd-clean; find $AGNOSTICD_HOME/ansible/workdir/.agnosticd ! -name "secrets.yml" -delete'
 
+alias aicommits='aicommits --generate=1'
+
 ### K8S / OCP ###
 
 alias k='kubectl'
 #alias kc='kubectl config use-context'
 alias kc='kubectx'
+alias kcu='kubectx -u'
 alias ns='kubens'
 
 alias pods='kubectl get pods'
