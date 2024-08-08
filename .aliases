@@ -48,14 +48,52 @@ alias crc='crc --log-level debug'
 ### FUNCTIONS ###
 
 function ocl {
-  OCP_API=${1}
-  OCP_USR=${2:-'admin'}
-  OCP_PWD=${3:-'r3dh4t1!'}
-  if [ -z $OCP_API ] && [ -n $AGD_GUID ] && [ -n $AGD_SANDBOX ]; then
-    OCP_API="https://api.cluster-${AGD_GUID}.${AGD_GUID}.${AGD_SANDBOX}.opentlc.com:6443"
+  local OCP_API=${1}
+  local OCP_USR=${2}
+  local OCP_PWD=${3}
+
+  if [[ $OCP_API == 'rosa' ]]; then
+    OCP_API=$(agd-data .rosa_openshift_api_url)
+    OCP_USR=$(agd-data .rosa_openshift_admin_user)
+    OCP_PWD=$(agd-data .rosa_openshift_admin_password)
+  elif [[ $OCP_API == 'ocp4' ]]; then
+    OCP_API=$(agd-data .openshift_api_server_url)
+    OCP_USR=$(agd-data .openshift_cluster_user_name)
+    OCP_PWD=$(agd-data .openshift_cluster_user_password)
   fi
-  #kubens default;
-  ${HOME}/cli/oc login --server="${OCP_API}" --username="${OCP_USR}" --password="${OCP_PWD}"
+
+  if [[ -z "$OCP_API" || -z "$OCP_USR" || -z "$OCP_PWD" ]]; then
+    echo "Error: One or more required values are missing."
+    return 1
+  fi
+
+  set -x
+  "${HOME}/cli/oc" login --server="${OCP_API}" --username="${OCP_USR}" --password="${OCP_PWD}"
+  set +x
+}
+
+function agd-data {
+  local AGD_KEY=${1}
+  if [[ -z "$AGD_KEY" ]]; then
+    echo "Usage: agd-data <key>"
+    return 1
+  fi
+
+  local AGD_FILE="${AGNOSTICD_HOME}/ansible/workdir/.agnosticd/${AGD_GUID}/user-data.yaml"
+
+  if [[ ! -f "$AGD_FILE" ]]; then
+    echo "File not found: $AGD_FILE"
+    return 1
+  fi
+
+  local AGD_VALUE=$(yq e "${AGD_KEY}" "${AGD_FILE}")
+
+  if [[ -z "$AGD_VALUE" ]]; then
+    echo "No value found for key: $AGD_KEY"
+    return 1
+  fi
+
+  echo "$AGD_VALUE"
 }
 
 function rt {
