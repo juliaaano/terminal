@@ -22,6 +22,10 @@ alias agd-run='alias agd-run; caffeinate -disu $AGNOSTICD_HOME/tools/runner/run.
 alias agd-clean='alias agd-clean; find $AGNOSTICD_HOME/ansible/workdir/.agnosticd ! -name "secrets.yml" -delete'
 
 alias aicommits='aicommits --generate=1'
+alias stash='git stash push'
+alias unstash='git stash pop'
+alias pull='git pull -p'
+alias fetch='git fetch origin -p'
 
 ### K8S / OCP ###
 
@@ -57,9 +61,9 @@ function ocl {
     OCP_USR=$(agd-data .rosa_openshift_admin_user)
     OCP_PWD=$(agd-data .rosa_openshift_admin_password)
   elif [[ $OCP_API == 'ocp4' ]]; then
-    OCP_API=$(agd-data .openshift_api_server_url)
-    OCP_USR=$(agd-data .openshift_cluster_user_name)
-    OCP_PWD=$(agd-data .openshift_cluster_user_password)
+    OCP_API=$(agd-data .openshift_api_url)
+    OCP_USR=$(agd-data .openshift_cluster_admin_username)
+    OCP_PWD=$(agd-data .openshift_cluster_admin_password)
   fi
 
   if [[ -z "$OCP_API" || -z "$OCP_USR" || -z "$OCP_PWD" ]]; then
