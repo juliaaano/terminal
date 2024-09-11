@@ -44,6 +44,8 @@ alias console='alias console; open -b com.apple.safari $(oc whoami --show-consol
 alias gitops='alias gitops; open -b com.apple.safari https://$(kubectl get routes openshift-gitops-server -o jsonpath='{.spec.host}' -n openshift-gitops)'
 #alias gitops='alias gitops; open -b com.google.Chrome https://$(kubectl get routes openshift-gitops-server -o jsonpath='{.spec.host}' -n openshift-gitops)'
 
+alias argocd='argocd --grpc-web'
+
 alias kconf-bkp='cp -av $HOME/.kube/config $HOME/.kube/config.bkp'
 alias kconf-rcv='cp -av $HOME/.kube/config.bkp $HOME/.kube/config'
 
