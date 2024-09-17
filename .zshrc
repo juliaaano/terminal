@@ -160,7 +160,7 @@ export KUBE_PS1_PREFIX=""
 export KUBE_PS1_SUFFIX=" "
 export KUBE_PS1_SYMBOL_ENABLE=false
 export KUBE_PS1_NS_COLOR="cyan"
-export KUBE_PS1_CTX_COLOR="magenta"
+export KUBE_PS1_CTX_COLOR="yellow"
 #function get_cluster_short { echo "$1" | cut -d "/" -f "2" | cut -d ":" -f "1" | cut -d "-" -f "4,5" }
 function get_cluster_short {
   declare -a array=($(echo "$1" | tr "/" " "))
@@ -168,8 +168,14 @@ function get_cluster_short {
   user=${array[${array_length}]}
   if [[ "$1" == *"crc"* ]]; then
     domain="crc"
+  elif [[ "$1" == *"sandbox"* ]]; then
+    domain=$(echo ${array[${array_length}-1]} | cut -d ":" -f 1 | cut -d "-" -f "5")
+  elif [[ "$1" == *"redhatworkshops"* ]]; then
+    domain=$(echo ${array[${array_length}-1]} | cut -d ":" -f 1 | cut -d "-" -f "3,5")
+  elif [[ "$1" == *"rosa"* ]]; then
+    domain=$(echo ${array[${array_length}-1]} | cut -d ":" -f 1 | cut -d "-" -f "2")
   else
-    domain=$(echo ${array[${array_length}-1]} | cut -d ":" -f 1 | cut -d "-" -f "4,5") 
+    domain=$(echo ${array[${array_length}-1]} | cut -d ":" -f 1) 
   fi
   if [[ "${domain}" == "N" ]]; then
     echo "off"
