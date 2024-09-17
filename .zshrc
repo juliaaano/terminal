@@ -173,7 +173,7 @@ function get_cluster_short {
   elif [[ "$1" == *"redhatworkshops"* ]]; then
     domain=$(echo ${array[${array_length}-1]} | cut -d ":" -f 1 | cut -d "-" -f "3,5")
   elif [[ "$1" == *"rosa"* ]]; then
-    domain=$(echo ${array[${array_length}-1]} | cut -d ":" -f 1 | cut -d "-" -f "2")
+    domain=$(echo ${array[${array_length}-1]} | cut -d ":" -f 1 | cut -d "-" -f "2,3")
   else
     domain=$(echo ${array[${array_length}-1]} | cut -d ":" -f 1) 
   fi
