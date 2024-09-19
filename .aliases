@@ -156,7 +156,7 @@ function mfa {
   echo "OTP copied to clipboard"
 }
 
-alias password='alias password; bw --session $(bw unlock --passwordfile $HOME/icloud/secrets/bitwarden-mp.txt --raw) get password'
-alias notes='alias notes; bw --session $(bw unlock --passwordfile $HOME/icloud/secrets/bitwarden-mp.txt --raw) get notes'
-alias item='alias item; bw --session $(bw unlock --passwordfile $HOME/icloud/secrets/bitwarden-mp.txt --raw) --pretty get item'
+alias password='alias password; bw --session $(bw unlock --passwordfile $HOME/.bitwarden --raw) get password'
+alias notes='alias notes; bw --session $(bw unlock --passwordfile $HOME/.bitwarden --raw) get notes'
+alias item='alias item; bw --session $(bw unlock --passwordfile $HOME/.bitwarden --raw) --pretty get item'
 
