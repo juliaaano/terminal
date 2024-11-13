@@ -85,7 +85,7 @@ function agd-data {
     return 1
   fi
 
-  local AGD_FILE="${AGNOSTICD_HOME}/ansible/workdir/.agnosticd/${AGD_GUID}/user-data.yaml"
+  local AGD_FILE="${AGNOSTICD_HOME}/ansible/workdir/.agnosticd/${AGD_GUID}/provision-user-data.yaml"
 
   if [[ ! -f "$AGD_FILE" ]]; then
     echo "File not found: $AGD_FILE"
