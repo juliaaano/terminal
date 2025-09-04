@@ -155,7 +155,7 @@ function aws_prompt_info() {
 source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
 PS1='$(kube_ps1)'$PS1
 export KUBE_PS1_BINARY=oc
-export KUBE_PS1_NS_ENABLE=false
+export KUBE_PS1_NS_ENABLE=true
 export KUBE_PS1_PREFIX=""
 export KUBE_PS1_SUFFIX=" "
 export KUBE_PS1_SYMBOL_ENABLE=false
@@ -205,4 +205,14 @@ eval "$(pyenv init -)"
 
 ### AGNOSTICD ###
 export AGNOSTICD_HOME=${HOME}/redhat/redhat-cop/agnosticd
+
+### GOOGLE / CLAUDE / GEMINI ###
+export CLAUDE_CODE_USE_VERTEX=1
+export CLOUD_ML_REGION=us-east5
+export ANTHROPIC_VERTEX_PROJECT_ID=$(${ACTUAL_DIR}/secrets/GOOGLE_CLOUD_PROJECT.sh)
+export ANTHROPIC_MODEL='claude-sonnet-4@20250514'
+export ANTHROPIC_SMALL_FAST_MODEL='claude-sonnet-4@20250514'
+
+export GEMINI_API_KEY=$(${ACTUAL_DIR}/secrets/GEMINI_API_KEY.sh)
+export GEMINI_API_KEY=$(${ACTUAL_DIR}/secrets/GOOGLE_CLOUD_PROJECT.sh)
 
