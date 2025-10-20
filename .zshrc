@@ -161,7 +161,6 @@ export KUBE_PS1_SUFFIX=" "
 export KUBE_PS1_SYMBOL_ENABLE=false
 export KUBE_PS1_NS_COLOR="cyan"
 export KUBE_PS1_CTX_COLOR="yellow"
-#function get_cluster_short { echo "$1" | cut -d "/" -f "2" | cut -d ":" -f "1" | cut -d "-" -f "4,5" }
 function get_cluster_short {
   declare -a array=($(echo "$1" | tr "/" " "))
   array_length=${#array[@]}
@@ -171,11 +170,16 @@ function get_cluster_short {
   elif [[ "$1" == *"sandbox"* ]]; then
     domain=$(echo ${array[${array_length}-1]} | cut -d ":" -f 1 | cut -d "-" -f "5")
   elif [[ "$1" == *"redhatworkshops"* ]]; then
-    domain=$(echo ${array[${array_length}-1]} | cut -d ":" -f 1 | cut -d "-" -f "3,5")
+    domain=$(echo ${array[${array_length}-1]} | cut -d ":" -f 1 | cut -d "-" -f "2,3")
+  elif [[ "$1" == *"rhdp-net"* ]]; then
+    domain=$(echo ${array[${array_length}-1]} | cut -d ":" -f 1 | cut -d "-" -f "5,6,7")
   elif [[ "$1" == *"rosa"* ]]; then
     domain=$(echo ${array[${array_length}-1]} | cut -d ":" -f 1 | cut -d "-" -f "2,3")
   else
     domain=$(echo ${array[${array_length}-1]} | cut -d ":" -f 1) 
+  fi
+  if [[ "$user" == *"jboeselm"* ]]; then
+    user="jboeselm"
   fi
   if [[ "${domain}" == "N" ]]; then
     echo "off"
@@ -205,6 +209,7 @@ eval "$(pyenv init -)"
 
 ### AGNOSTICD ###
 export AGNOSTICD_HOME=${HOME}/redhat/redhat-cop/agnosticd
+export AGNOSTICD2_HOME=${HOME}/redhat/agnosticd
 
 ### GOOGLE / CLAUDE / GEMINI ###
 export CLAUDE_CODE_USE_VERTEX=1

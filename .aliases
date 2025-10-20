@@ -15,6 +15,7 @@ alias pm='podman machine'
 
 alias caffeinate='alias caffeinante; caffeinate -disu'
 
+alias agd2-init='alias agd2-init; source $AGNOSTICD2_HOME/agnosticd-v2-secrets/secrets-cluster.sh'
 alias agd-init='alias agd-init; source $AGNOSTICD_HOME/tools/runner/init.sh'
 alias agd-run='alias agd-run; caffeinate -disu $AGNOSTICD_HOME/tools/runner/run.sh'
 alias agd-clean='alias agd-clean; find $AGNOSTICD_HOME/ansible/workdir/.agnosticd ! -name "secrets.yml" -delete'
@@ -77,6 +78,10 @@ function ocl {
   set -x
   "${HOME}/cli/oc" login --server="${OCP_API}" --username="${OCP_USR}" --password="${OCP_PWD}"
   set +x
+}
+
+function agd2-run {
+  caffeinate -disu ${AGNOSTICD2_HOME}/agnosticd-v2/bin/agd provision -g ${AGD_GUID} -c ${1} -a cluster-${AGD_GUID}
 }
 
 function agd-data {
