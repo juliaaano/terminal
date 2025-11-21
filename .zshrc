@@ -168,7 +168,7 @@ function get_cluster_short {
   if [[ "$1" == *"crc"* ]]; then
     domain="crc"
   elif [[ "$1" == *"sandbox"* ]]; then
-    domain=$(echo ${array[${array_length}-1]} | cut -d ":" -f 1 | cut -d "-" -f "5")
+    domain=$(echo ${array[${array_length}-1]} | cut -d ":" -f 1 | cut -d "-" -f "4")
   elif [[ "$1" == *"redhatworkshops"* ]]; then
     domain=$(echo ${array[${array_length}-1]} | cut -d ":" -f 1 | cut -d "-" -f "2,3")
   elif [[ "$1" == *"rhdp-net"* ]]; then
