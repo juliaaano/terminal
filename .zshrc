@@ -117,6 +117,9 @@ setopt HIST_IGNORE_ALL_DUPS
 ### GREP Options s###
 export GREP_OPTIONS=-i
 
+### CLAUDE CODE ###
+export EDITOR='vim'
+
 ### GPG SSH ###
 #export GPG_TTY=$(tty)
 #export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
@@ -208,3 +211,5 @@ export ANTHROPIC_VERTEX_PROJECT_ID=$(${ACTUAL_DIR}/secrets/GOOGLE_CLOUD_PROJECT.
 export GEMINI_API_KEY=$(${ACTUAL_DIR}/secrets/GEMINI_API_KEY.sh)
 
 export CONTEXT7_API_KEY=$(${ACTUAL_DIR}/secrets/CONTEXT7_API_KEY.sh)
+export FIRECRAWL_API_KEY=$(${ACTUAL_DIR}/secrets/FIRECRAWL_API_KEY.sh)
+
