@@ -117,9 +117,6 @@ setopt HIST_IGNORE_ALL_DUPS
 ### GREP Options s###
 export GREP_OPTIONS=-i
 
-### Good for tmux ###
-#export EDITOR=vim
-
 ### GPG SSH ###
 #export GPG_TTY=$(tty)
 #export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
@@ -130,16 +127,9 @@ export GREP_OPTIONS=-i
 eval "$(rbenv init - zsh)"
 #export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
 
-### Homebrew ###
-#export HOMEBREW_GITHUB_API_TOKEN=$($ACTUAL_DIR/secrets/HOMEBREW_GITHUB_API_TOKEN.sh)
-
 ### jenv ###
 export PATH="$HOME/.jenv/bin:$PATH"
 eval "$(jenv init -)"
-
-### GOLANG ###
-#export PATH="$GOPATH/bin:$PATH"
-#export PATH=$PATH:/usr/local/go/bin
 
 ### KUBECTL KREW ###
 export PATH="${PATH}:${HOME}/.krew/bin"
@@ -205,7 +195,7 @@ eval "$(pyenv init -)"
 
 ### Bitwarden CLI ###
 #eval "$(NODE_OPTIONS='--no-deprecation' bw completion --shell zsh); compdef _bw bw;"
-#alias bw='NODE_OPTIONS="--no-deprecation" bw'
+alias bw='NODE_OPTIONS="--no-deprecation" bw'
 
 ### AGNOSTICD ###
 export AGNOSTICD_HOME=${HOME}/redhat/redhat-cop/agnosticd
