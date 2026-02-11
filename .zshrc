@@ -198,7 +198,7 @@ eval "$(pyenv init -)"
 
 ### Bitwarden CLI ###
 #eval "$(NODE_OPTIONS='--no-deprecation' bw completion --shell zsh); compdef _bw bw;"
-alias bw='NODE_OPTIONS="--no-deprecation" bw'
+#alias bw='NODE_OPTIONS="--no-deprecation" bw'
 
 ### AGNOSTICD ###
 export AGNOSTICD_HOME=${HOME}/redhat/redhat-cop/agnosticd
