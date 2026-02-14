@@ -55,9 +55,9 @@ ZSH_THEME="minimal"
 plugins=(
   zsh-autosuggestions
   zsh-syntax-highlighting
+  kube-ps1
   oc
   aws
-  mvn
 )
 
 # User configuration
@@ -65,9 +65,7 @@ plugins=(
 zstyle ':omz:alpha:lib:git' async-prompt no
 zstyle ':omz:update' mode auto
 
-# export MANPATH="/usr/local/man:$MANPATH"
-
-FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+FPATH="/opt/homebrew/share/zsh/site-functions:${FPATH}"
 
 source $ZSH/oh-my-zsh.sh
 
@@ -114,21 +112,14 @@ setopt HIST_REDUCE_BLANKS
 setopt SHARE_HISTORY
 setopt HIST_IGNORE_ALL_DUPS
 
-### GREP Options s###
-export GREP_OPTIONS=-i
+### GREP ###
+alias grep='grep -i'
 
 ### CLAUDE CODE ###
 export EDITOR='vim'
 
-### GPG SSH ###
-#export GPG_TTY=$(tty)
-#export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
-#gpgconf --launch gpg-agent
-#eval $($HOME/dev/juliaaano/scripts/gpg-agent-setup.sh)
-
 ### Ruby ###
 eval "$(rbenv init - zsh)"
-#export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
 
 ### jenv ###
 export PATH="$HOME/.jenv/bin:$PATH"
@@ -143,10 +134,8 @@ function aws_prompt_info() {
   echo "${AWS_PROFILE}|${AWS_REGION}"
 }
 
-### KUBE PS1 PROMPT ##
+### KUBE PS1 PROMPT ###
 ### https://github.com/jonmosco/kube-ps1 ###
-source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
-PS1='$(kube_ps1)'$PS1
 export KUBE_PS1_BINARY=oc
 export KUBE_PS1_NS_ENABLE=true
 export KUBE_PS1_PREFIX=""
@@ -163,13 +152,13 @@ function get_cluster_short {
   elif [[ "$1" == *"sandbox"* ]]; then
     domain=$(echo ${array[${array_length}-1]} | cut -d ":" -f 1 | cut -d "-" -f "4")
   elif [[ "$1" == *"redhatworkshops"* ]]; then
-    domain=$(echo ${array[${array_length}-1]} | cut -d ":" -f 1 | cut -d "-" -f "2,3")
+    domain=$(echo ${array[${array_length}-1]} | cut -d ":" -f 1 | cut -d "-" -f "3,3")
   elif [[ "$1" == *"rhdp-net"* ]]; then
     domain=$(echo ${array[${array_length}-1]} | cut -d ":" -f 1 | cut -d "-" -f "5,6,7")
   elif [[ "$1" == *"rosa"* ]]; then
     domain=$(echo ${array[${array_length}-1]} | cut -d ":" -f 1 | cut -d "-" -f "2,3")
   else
-    domain=$(echo ${array[${array_length}-1]} | cut -d ":" -f 1) 
+    domain=$(echo ${array[${array_length}-1]} | cut -d ":" -f 1)
   fi
   if [[ "$user" == *"jboeselm"* ]]; then
     user="jboeselm"
@@ -183,10 +172,12 @@ function get_cluster_short {
   fi
 }
 export KUBE_PS1_CLUSTER_FUNCTION=get_cluster_short
+PROMPT='$(kube_ps1)'$PROMPT
 
+### NVM ###
 export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
 
 ### https://github.com/junegunn/fzf ###
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -195,10 +186,6 @@ export NVM_DIR="$HOME/.nvm"
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
-
-### Bitwarden CLI ###
-#eval "$(NODE_OPTIONS='--no-deprecation' bw completion --shell zsh); compdef _bw bw;"
-#alias bw='NODE_OPTIONS="--no-deprecation" bw'
 
 ### PLAYWRIGHT ###
 export PLAYWRIGHT_MCP_OUTPUT_DIR=${HOME}/.playwright-cli
@@ -215,4 +202,3 @@ export GEMINI_API_KEY=$(${ACTUAL_DIR}/secrets/GEMINI_API_KEY.sh)
 
 export CONTEXT7_API_KEY=$(${ACTUAL_DIR}/secrets/CONTEXT7_API_KEY.sh)
 export FIRECRAWL_API_KEY=$(${ACTUAL_DIR}/secrets/FIRECRAWL_API_KEY.sh)
-
