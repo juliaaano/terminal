@@ -202,3 +202,5 @@ export GEMINI_API_KEY=$(${ACTUAL_DIR}/secrets/GEMINI_API_KEY.sh)
 
 export CONTEXT7_API_KEY=$(${ACTUAL_DIR}/secrets/CONTEXT7_API_KEY.sh)
 export FIRECRAWL_API_KEY=$(${ACTUAL_DIR}/secrets/FIRECRAWL_API_KEY.sh)
+
+eval $(gpg-agent-setup)
