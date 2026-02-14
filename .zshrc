@@ -200,6 +200,9 @@ eval "$(pyenv init -)"
 #eval "$(NODE_OPTIONS='--no-deprecation' bw completion --shell zsh); compdef _bw bw;"
 #alias bw='NODE_OPTIONS="--no-deprecation" bw'
 
+### PLAYWRIGHT ###
+export PLAYWRIGHT_MCP_OUTPUT_DIR=${HOME}/.playwright-cli
+
 ### AGNOSTICD ###
 export AGNOSTICD_HOME=${HOME}/redhat/redhat-cop/agnosticd
 export AGNOSTICD2_HOME=${HOME}/redhat/agnosticd
