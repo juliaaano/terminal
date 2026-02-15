@@ -44,31 +44,6 @@ alias crc='crc --log-level debug'
 
 ### FUNCTIONS ###
 
-function ocl {
-  local OCP_API=${1}
-  local OCP_USR=${2}
-  local OCP_PWD=${3}
-
-  if [[ $OCP_API == 'rosa' ]]; then
-    OCP_API=$(agd-data .rosa_openshift_api_url)
-    OCP_USR=$(agd-data .rosa_openshift_admin_user)
-    OCP_PWD=$(agd-data .rosa_openshift_admin_password)
-  elif [[ $OCP_API == 'ocp4' ]]; then
-    OCP_API=$(agd-data .openshift_api_url)
-    OCP_USR=$(agd-data .openshift_cluster_admin_username)
-    OCP_PWD=$(agd-data .openshift_cluster_admin_password)
-  fi
-
-  if [[ -z "$OCP_API" || -z "$OCP_USR" || -z "$OCP_PWD" ]]; then
-    echo "Error: One or more required values are missing."
-    return 1
-  fi
-
-  set -x
-  "${HOME}/cli/oc" login --server="${OCP_API}" --username="${OCP_USR}" --password="${OCP_PWD}"
-  set +x
-}
-
 function agd-run {
   caffeinate -disu ${AGNOSTICD_HOME}/agnosticd-v2/bin/agd provision -g ${AGD_GUID} -c ${1} -a cluster-${AGD_GUID}
 }
