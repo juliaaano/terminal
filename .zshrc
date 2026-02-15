@@ -191,8 +191,7 @@ eval "$(pyenv init -)"
 export PLAYWRIGHT_MCP_OUTPUT_DIR=${HOME}/.playwright-cli
 
 ### AGNOSTICD ###
-export AGNOSTICD_HOME=${HOME}/redhat/redhat-cop/agnosticd
-export AGNOSTICD2_HOME=${HOME}/redhat/agnosticd
+export AGNOSTICD_HOME=${HOME}/redhat/agnosticd
 
 ### GOOGLE / CLAUDE / GEMINI ###
 export CLAUDE_CODE_USE_VERTEX=1

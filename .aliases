@@ -1,6 +1,5 @@
 #!/bin/bash
 
-#alias ll='ls -lahHF'
 alias ll='lsd -lahF'
 alias history-edit='vim $HOME/.zsh_history'
 
@@ -8,17 +7,13 @@ alias gpg-home='export GNUPGHOME=$HOME/.gnupg'
 
 alias notes-private='alias notes-private; gpg --decrypt $HOME/icloud/secrets/notes-private.txt.asc | open -f -a "Sublime Text.app"'
 
-#alias docker='podman'
 alias runs='gh run view'
 
 alias pm='podman machine'
 
 alias caffeinate='alias caffeinante; caffeinate -disu'
 
-alias agd2-init='alias agd2-init; source $AGNOSTICD2_HOME/agnosticd-v2-secrets/secrets-cluster.sh'
-alias agd-init='alias agd-init; source $AGNOSTICD_HOME/tools/runner/init.sh'
-alias agd-run='alias agd-run; caffeinate -disu $AGNOSTICD_HOME/tools/runner/run.sh'
-alias agd-clean='alias agd-clean; find $AGNOSTICD_HOME/ansible/workdir/.agnosticd ! -name "secrets.yml" -delete'
+alias agd-init='alias agd-init; source $AGNOSTICD_HOME/agnosticd-v2-secrets/secrets-cluster.sh'
 
 alias stash='git stash push'
 alias unstash='git stash pop'
@@ -32,7 +27,6 @@ alias commitv='output=$(claude -p "/commitv" --output-format text); printf "%s\n
 ### K8S / OCP ###
 
 alias k='kubectl'
-#alias kc='kubectl config use-context'
 alias kc='kubectx'
 alias kcu='kubectx -u'
 alias ns='kubens'
@@ -42,14 +36,9 @@ alias routes='kubectl get routes'
 alias logs='kubectl logs -f'
 
 alias console='alias console; open -b com.apple.safari $(oc whoami --show-console)'
-#alias console='alias console; open -b com.google.Chrome $(oc whoami --show-console)'
 alias gitops='alias gitops; open -b com.apple.safari https://$(kubectl get routes openshift-gitops-server -o jsonpath='{.spec.host}' -n openshift-gitops)'
-#alias gitops='alias gitops; open -b com.google.Chrome https://$(kubectl get routes openshift-gitops-server -o jsonpath='{.spec.host}' -n openshift-gitops)'
 
 alias argocd='argocd --grpc-web'
-
-alias kconf-bkp='cp -av $HOME/.kube/config $HOME/.kube/config.bkp'
-alias kconf-rcv='cp -av $HOME/.kube/config.bkp $HOME/.kube/config'
 
 alias crc='crc --log-level debug'
 
@@ -80,32 +69,8 @@ function ocl {
   set +x
 }
 
-function agd2-run {
-  caffeinate -disu ${AGNOSTICD2_HOME}/agnosticd-v2/bin/agd provision -g ${AGD_GUID} -c ${1} -a cluster-${AGD_GUID}
-}
-
-function agd-data {
-  local AGD_KEY=${1}
-  if [[ -z "$AGD_KEY" ]]; then
-    echo "Usage: agd-data <key>"
-    return 1
-  fi
-
-  local AGD_FILE="${AGNOSTICD_HOME}/ansible/workdir/.agnosticd/${AGD_GUID}/provision-user-data.yaml"
-
-  if [[ ! -f "$AGD_FILE" ]]; then
-    echo "File not found: $AGD_FILE"
-    return 1
-  fi
-
-  local AGD_VALUE=$(yq e "${AGD_KEY}" "${AGD_FILE}")
-
-  if [[ -z "$AGD_VALUE" ]]; then
-    echo "No value found for key: $AGD_KEY"
-    return 1
-  fi
-
-  echo "$AGD_VALUE"
+function agd-run {
+  caffeinate -disu ${AGNOSTICD_HOME}/agnosticd-v2/bin/agd provision -g ${AGD_GUID} -c ${1} -a cluster-${AGD_GUID}
 }
 
 function rt {
@@ -137,11 +102,6 @@ repos() {
   echo "${r:-no github repos found with name "$*"}"
 }
 
-#function ns { kubectl config set-context $(kubectl config current-context) --namespace=$@ }
-
-function secrets { gpg --decrypt $@ }
-function new-script { cp $HOME/dev/juliaaano/scripts/template.sh $@ }
-
 function psaux { ps auxww | grep -i $@ | grep -v grep }
 
 function lpcurl {
@@ -151,7 +111,6 @@ function lpcurl {
     echo "\n------------------------------\n"
   done
 }
-
 
 function jwt { jq -R 'split(".") | .[1] | @base64d | fromjson' <<< $@ }
 
@@ -168,7 +127,4 @@ function mfa {
   echo "OTP copied to clipboard"
 }
 
-alias password='alias password; bw --session $(bw unlock --passwordfile $HOME/.bitwarden --raw) get password'
-alias notes='alias notes; bw --session $(bw unlock --passwordfile $HOME/.bitwarden --raw) get notes'
 alias item='alias item; bw --session $(bw unlock --passwordfile $HOME/.bitwarden --raw) --pretty get item'
-
