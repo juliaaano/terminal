@@ -11,7 +11,7 @@ alias runs='gh run view'
 
 alias pm='podman machine'
 
-alias caffeinate='alias caffeinante; caffeinate -disu'
+alias caffeinate='alias caffeinate; caffeinate -disu'
 
 alias agd-init='alias agd-init; source $AGNOSTICD_HOME/agnosticd-v2-secrets/secrets-cluster.sh'
 
@@ -74,10 +74,10 @@ function kcd {
 repos() {
   local r
   r=$(gh search repos --match name --limit 10 --json url --jq '.[].url' "$@")
-  echo "${r:-no github repos found with name "$*"}"
+  echo "${r:-no github repos found with name $*}"
 }
 
-function psaux { ps auxww | grep -i $@ | grep -v grep }
+function psaux { ps auxww | grep -i "$@" | grep -v grep; }
 
 function lpcurl {
   echo "------------------------------\ncurl $1 times the url $2\n------------------------------\n"
@@ -87,9 +87,9 @@ function lpcurl {
   done
 }
 
-function jwt { jq -R 'split(".") | .[1] | @base64d | fromjson' <<< $@ }
+function jwt { jq -R 'split(".") | .[1] | @base64d | fromjson' <<< "$@"; }
 
-function weather { curl wttr.in/$@ }
+function weather { curl "wttr.in/$*"; }
 
 function mfa {
   local service=""
