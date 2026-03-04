@@ -202,4 +202,9 @@ export GEMINI_API_KEY=$(${ACTUAL_DIR}/secrets/GEMINI_API_KEY.sh)
 export CONTEXT7_API_KEY=$(${ACTUAL_DIR}/secrets/CONTEXT7_API_KEY.sh)
 export FIRECRAWL_API_KEY=$(${ACTUAL_DIR}/secrets/FIRECRAWL_API_KEY.sh)
 
-eval $(gpg-agent-setup)
+#eval $(gpg-agent-setup)
+export GPG_TTY=$(tty)
+export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
+gpg-connect-agent "scd serialno" /bye >/dev/null 2>&1
+
