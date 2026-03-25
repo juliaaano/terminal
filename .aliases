@@ -44,6 +44,12 @@ alias crc='crc --log-level debug'
 
 ### FUNCTIONS ###
 
+function tmp {
+  local dir
+  dir="$(mktemp -d /tmp/XXXXX)" || return
+  cd "$dir" || return
+}
+
 function agd-run {
   caffeinate -disu ${AGNOSTICD_HOME}/agnosticd-v2/bin/agd provision -g ${AGD_GUID} -c ${1} -a cluster-${AGD_GUID}
 }

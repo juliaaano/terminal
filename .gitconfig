@@ -78,3 +78,13 @@
 
 [init]
   defaultBranch = main
+
+[url "git@github.com:juliaaano/"]
+  insteadOf = https://github.com/juliaaano/
+
+[url "git@github.com:rhpds/"]
+  insteadOf = https://github.com/rhpds/
+
+[url "git@github.com:agnosticd/"]
+  insteadOf = https://github.com/agnosticd/
+
