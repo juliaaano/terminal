@@ -212,3 +212,8 @@ export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
 gpg-connect-agent "scd serialno" /bye >/dev/null 2>&1
 
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/juliano/.lmstudio/bin"
+# End of LM Studio CLI section
+
