@@ -24,6 +24,8 @@ alias commit='output=$(claude -p "/commit" --output-format text); printf "%s\n" 
 alias commitv='output=$(claude -p "/commitv" --output-format text); printf "%s\n" "$output"; printf "%s" "git cm \"$output\"" | pbcopy'
 #alias commit-agv='output=$(git diff --staged | claude -p "$(cat ~/redhat/rhpds/agnosticv/.commit-prompt.md)"); printf "%s\n" "$output"; printf "%s" "git cm \"$output\"" | pbcopy'
 
+alias vpn='alias vpn; netbird up --management-url https://wgvpn.redhat.com:8080'
+
 ### K8S / OCP ###
 
 alias k='kubectl'
