@@ -174,6 +174,26 @@ function get_cluster_short {
 export KUBE_PS1_CLUSTER_FUNCTION=get_cluster_short
 PROMPT='$(kube_ps1)'$PROMPT
 
+### NETBIRD VPN PROMPT ###
+_netbird_vpn_status=""
+_netbird_last_check=0
+
+function _netbird_update_status() {
+  local now=$(date +%s)
+  if (( now - _netbird_last_check > 30 )); then
+    _netbird_last_check=$now
+    if netbird status 2>/dev/null | grep -q "Management: Connected"; then
+      _netbird_vpn_status="%B%{$fg[green]%}(vpn)%b%{$reset_color%} "
+    else
+      _netbird_vpn_status=""
+    fi
+  fi
+}
+
+precmd_functions+=(_netbird_update_status)
+
+PROMPT='${_netbird_vpn_status}'$PROMPT
+
 ### NVM ###
 export NVM_DIR="$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
@@ -211,7 +231,6 @@ export GPG_TTY=$(tty)
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
 gpg-connect-agent "scd serialno" /bye >/dev/null 2>&1
-
 
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/Users/juliano/.lmstudio/bin"
