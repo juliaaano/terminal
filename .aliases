@@ -69,7 +69,7 @@ function nstoggle {
   fi
 }
 
-function kcd {
+function kcdall {
   entries=$(kubectx)
   current=$(kubectx -c)
   while IFS= read -r entry; do
@@ -77,6 +77,19 @@ function kcd {
       kubectx -d "$entry"
     fi
   done <<< "$entries"
+}
+
+function kcd {
+  current=$(kubectx -c)
+  while IFS= read -r entry; do
+    if [[ $entry == "$current" ]]; then
+      continue
+    fi
+    if ! kubectl cluster-info --context "$entry" &>/dev/null; then
+      echo "Removing unreachable context: $entry"
+      kubectx -d "$entry"
+    fi
+  done <<< "$(kubectx)"
 }
 
 repos() {
