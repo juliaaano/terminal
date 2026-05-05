@@ -215,7 +215,7 @@ export AGNOSTICD_HOME=${HOME}/redhat/agnosticd
 
 ### GOOGLE / CLAUDE / GEMINI ###
 export CLAUDE_CODE_USE_VERTEX=1
-export CLOUD_ML_REGION=us-east5
+export CLOUD_ML_REGION=global
 export ANTHROPIC_VERTEX_PROJECT_ID=$(${ACTUAL_DIR}/secrets/GOOGLE_CLOUD_PROJECT.sh)
 export GEMINI_API_KEY=$(${ACTUAL_DIR}/secrets/GEMINI_API_KEY.sh)
 
