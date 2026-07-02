@@ -11,6 +11,11 @@ alias runs='gh run view'
 
 alias pm='podman machine'
 
+alias agv='cd /Users/juliano/redhat/rhpds/agnosticv'
+alias agd='cd /Users/juliano/redhat/agnosticd'
+alias rhpds='cd /Users/juliano/redhat/rhpds'
+
+
 #alias caffeinate='alias caffeinate; caffeinate -disu'
 
 alias agd-init='alias agd-init; source $AGNOSTICD_HOME/agnosticd-v2-secrets/secrets-cluster.sh'
