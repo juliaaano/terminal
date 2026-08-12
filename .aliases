@@ -25,8 +25,8 @@ alias unstash='git stash pop'
 alias pull='git pull -p'
 alias fetch='git fetch origin -p'
 
-alias commit='output=$(claude -p "/commit" --output-format text); printf "%s\n" "$output"; printf "%s" "git cm \"$output\"" | pbcopy'
-alias commitv='output=$(claude -p "/commitv" --output-format text); printf "%s\n" "$output"; printf "%s" "git cm \"$output\"" | pbcopy'
+alias commit='output=$(claude -p "/commit" --output-format text --model "haiku"); printf "%s\n" "$output"; printf "%s" "git cm \"$output\"" | pbcopy'
+alias commitv='output=$(claude -p "/commitv" --output-format text --model "haiku"); printf "%s\n" "$output"; printf "%s" "git cm \"$output\"" | pbcopy'
 #alias commit-agv='output=$(git diff --staged | claude -p "$(cat ~/redhat/rhpds/agnosticv/.commit-prompt.md)"); printf "%s\n" "$output"; printf "%s" "git cm \"$output\"" | pbcopy'
 
 alias vpn='alias vpn; netbird up --management-url https://wgvpn.redhat.com:8080 && _netbird_last_check=0'
