@@ -112,6 +112,9 @@ setopt HIST_REDUCE_BLANKS
 setopt SHARE_HISTORY
 setopt HIST_IGNORE_ALL_DUPS
 
+### HOMEBREW ###
+export HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS=1
+
 ### GREP ###
 alias grep='grep -i'
 
